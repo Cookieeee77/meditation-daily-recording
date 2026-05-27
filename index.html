@@ -1,0 +1,82 @@
+<!DOCTYPE html> 
+ <html lang="zh"> 
+ <head> 
+   <meta charset="UTF-8"> 
+   <title>冥想心情打卡</title> 
+   <style> 
+     body { font-family: sans-serif; background: #bde0fe; margin:0;} 
+     .center { min-height:90vh; display:flex; flex-direction:column; align-items:center; justify-content:center;} 
+     .card { background:#fff; border-radius:16px; box-shadow:0 4px 18px #acdedd33; padding:32px 24px 25px 24px;} 
+     h2{margin-bottom:16px;} 
+     .btn{padding:12px 35px; border-radius:30px; border:none; background:#5bb1a8;color:#fff;font-size:1.09em;cursor:pointer;} 
+     .hide{display:none;} 
+     .guide{margin:16px 0 0 0; color:#2b5c77;} 
+   </style> 
+ </head> 
+ <body> 
+   <div class="center" id="welcome"> 
+     <div class="card"> 
+       <h2>🌳 欢迎进入冥想小屋</h2> 
+       <p>沉浸在自然与平静中，调适你的每一天。</p> 
+       <button class="btn" onclick="showJournal()">开始打卡</button> 
+     </div> 
+   </div> 
+   <div class="center hide" id="journal"> 
+     <div class="card"> 
+       <div style="margin-bottom:13px;">请选择今日心情</div> 
+       <select id="mood"> 
+         <option value="calm">🌞 平静</option> 
+         <option value="happy">🌈 开心</option> 
+         <option value="sad">🌧️ 忧郁</option> 
+         <option value="anxious">🌊 焦虑</option> 
+         <option value="unconfident">🌪️ 怀疑自我</option> 
+       </select> 
+       <div><textarea id="entry" style="margin-top:12px;width:98%;height:49px;resize:vertical;" placeholder="在这里写下你的心情/冥想想法……"></textarea></div> 
+       <button class="btn" onclick="showGuide()" style="margin:14px 0 0 0;">获取冥想引导</button> 
+       <div id="empty" style="color:#ba1f2f;"></div> 
+     </div> 
+   </div> 
+   <div class="center hide" id="guide"> 
+     <div class="card"> 
+       <div id="guideTitle"></div> 
+       <div class="guide" id="guideContent"></div> 
+       <button class="btn" style="margin-top:24px;" onclick="again()">再记录一次</button> 
+     </div> 
+   </div> 
+ <script> 
+   function showJournal(){ 
+     document.getElementById('welcome').classList.add('hide'); 
+     document.getElementById('journal').classList.remove('hide'); 
+   } 
+   function showGuide(){ 
+     let mood = document.getElementById('mood').value; 
+     let text = document.getElementById('entry').value.trim(); 
+     if(!text){ document.getElementById('empty').textContent="请先写点内容😊"; return; } 
+     document.getElementById('journal').classList.add('hide'); 
+     document.getElementById('guide').classList.remove('hide'); 
+     let guides = { 
+       calm:"继续觉察呼吸与身体，让平静成为你的力量。", 
+       happy:"记得心中的快乐源泉，给自己一个拥抱，感恩世界和自己。", 
+       sad:"允许情绪出现，请深呼吸，念一句“我被理解，也逐渐变好”。", 
+       anxious:"专注吸气吐气，试着听海浪声，让思绪慢慢安静。", 
+       unconfident:"你很棒，允许偶尔怀疑，相信自己终会成长！" 
+     } 
+     let titles = { 
+       calm:"适合你：呼吸静观冥想", 
+       happy:"适合你：感恩冥想", 
+       sad:"适合你：情绪陪伴冥想", 
+       anxious:"适合你：波浪冥想", 
+       unconfident:"适合你：自我激励冥想" 
+     } 
+     document.getElementById('guideTitle').innerHTML='<h3>'+titles[mood]+'</h3>'; 
+     document.getElementById('guideContent').textContent=guides[mood]; 
+     document.getElementById('empty').textContent=""; 
+   } 
+   function again(){ 
+     document.getElementById('guide').classList.add('hide'); 
+     document.getElementById('journal').classList.remove('hide'); 
+     document.getElementById('entry').value=''; 
+   } 
+ </script> 
+ </body> 
+ </html>
