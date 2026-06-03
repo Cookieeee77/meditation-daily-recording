@@ -89,6 +89,11 @@ body {
   animation: slideUp 0.5s ease;
 }
 
+.home-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f0fafe 100%);
+  border: 2px solid rgba(91, 177, 168, 0.1);
+}
+
 @keyframes slideUp {
   from {
     opacity: 0;
@@ -120,6 +125,13 @@ body {
 }
 
 /* ========== 标题和文本 ========== */
+h1 {
+  font-size: 32px;
+  color: #2b5c77;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
 h2 {
   margin-bottom: 12px;
   color: #2b5c77;
@@ -145,6 +157,27 @@ p {
   margin-top: 8px;
 }
 
+.home-title {
+  background: linear-gradient(135deg, #5bb1a8, #7dd3c5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.home-subtitle {
+  font-size: 16px;
+  color: #5bb1a8;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.home-description {
+  font-size: 13px;
+  color: #999;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
 /* ========== 呼吸动画 ========== */
 @keyframes breathing {
   0%, 100% {
@@ -164,6 +197,7 @@ p {
   background: linear-gradient(135deg, #5bb1a8, #7dd3c5);
   animation: breathing 4s infinite ease-in-out;
   margin: 0 auto 20px;
+  box-shadow: 0 4px 15px rgba(91, 177, 168, 0.2);
 }
 
 .breath-hint {
@@ -172,15 +206,16 @@ p {
   color: #666;
   margin-bottom: 20px;
   height: 20px;
+  font-weight: 500;
 }
 
 /* ========== 按钮 ========== */
 .btn {
-  padding: 12px 32px;
+  padding: 13px 32px;
   border-radius: 30px;
   border: none;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   white-space: nowrap;
@@ -189,11 +224,16 @@ p {
 .btn-primary {
   background: linear-gradient(135deg, #5bb1a8, #7dd3c5);
   color: #fff;
+  box-shadow: 0 4px 12px rgba(91, 177, 168, 0.2);
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(91, 177, 168, 0.3);
+  box-shadow: 0 6px 20px rgba(91, 177, 168, 0.3);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
 }
 
 .btn-secondary {
@@ -205,6 +245,11 @@ p {
 .btn-secondary:hover {
   background: #5bb1a8;
   color: #fff;
+  transform: translateY(-2px);
+}
+
+.btn-secondary:active {
+  transform: translateY(0);
 }
 
 .btn-group {
@@ -228,10 +273,11 @@ p {
 .home-stats {
   display: flex;
   justify-content: space-around;
-  background: #f5f9fa;
+  background: linear-gradient(135deg, #f5f9fa 0%, #e8f4f8 100%);
   border-radius: 16px;
   padding: 20px 0;
   margin: 24px 0;
+  border: 1px solid rgba(91, 177, 168, 0.1);
 }
 
 .stat-item {
@@ -259,12 +305,13 @@ p {
 .chat-input {
   width: 100%;
   padding: 12px;
-  border: 1px solid #e0e0e0;
+  border: 2px solid #e0e0e0;
   border-radius: 8px;
   font-size: 14px;
   font-family: inherit;
   margin-top: 12px;
   resize: vertical;
+  transition: all 0.3s ease;
 }
 
 .mood-select {
@@ -272,6 +319,13 @@ p {
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%235bb1a8' d='M1 1l5 5 5-5'/%3E%3C/svg%3E") no-repeat right 12px center;
   padding-right: 36px;
   cursor: pointer;
+}
+
+.mood-select:hover,
+.entry-input:hover,
+.duration-input:hover,
+.chat-input:hover {
+  border-color: #5bb1a8;
 }
 
 .mood-select:focus,
@@ -312,13 +366,14 @@ p {
   border-radius: 6px;
   overflow: hidden;
   margin-bottom: 12px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .progress-fill {
   height: 100%;
   background: linear-gradient(90deg, #5bb1a8, #7dd3c5);
   width: 0%;
-  transition: width 0.3s ease;
+  transition: width 0.5s ease;
   border-radius: 6px;
 }
 
@@ -326,6 +381,7 @@ p {
   text-align: center;
   font-size: 14px;
   color: #666;
+  font-weight: 600;
 }
 
 /* ========== 打卡日历 ========== */
@@ -347,6 +403,8 @@ p {
   font-weight: bold;
   color: #999;
   border: 2px solid transparent;
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .calendar-day.checked {
@@ -358,6 +416,24 @@ p {
 .calendar-day.today {
   border-color: #5bb1a8;
   color: #5bb1a8;
+  background: #e8f4f8;
+}
+
+.calendar-day:hover {
+  transform: scale(1.05);
+}
+
+/* ========== 打卡表单 ========== */
+.today-checkin {
+  background: #f5f9fa;
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 24px;
+}
+
+.today-checkin p {
+  font-weight: 600;
+  margin-bottom: 12px;
 }
 
 /* ========== 冥想列表 ========== */
@@ -384,10 +460,16 @@ p {
   background: #e8f4f8;
   border-color: #5bb1a8;
   transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(91, 177, 168, 0.15);
+}
+
+.meditation-item:active {
+  transform: translateX(2px);
 }
 
 .meditation-icon {
   font-size: 32px;
+  flex-shrink: 0;
 }
 
 .meditation-info {
@@ -424,7 +506,7 @@ p {
   font-size: 48px;
   color: #fff;
   font-weight: bold;
-  box-shadow: 0 8px 24px rgba(91, 177, 168, 0.3);
+  box-shadow: 0 12px 30px rgba(91, 177, 168, 0.3);
 }
 
 #timerText {
@@ -457,6 +539,7 @@ p {
   font-size: 14px;
   color: #666;
   height: 20px;
+  font-weight: 500;
 }
 
 /* ========== 记录列表 ========== */
@@ -476,6 +559,11 @@ p {
   background: #f5f9fa;
   border-radius: 12px;
   border-left: 4px solid #5bb1a8;
+  transition: all 0.3s ease;
+}
+
+.record-item:hover {
+  box-shadow: 0 4px 12px rgba(91, 177, 168, 0.15);
 }
 
 .record-header {
@@ -533,6 +621,18 @@ p {
   word-wrap: break-word;
   font-size: 13px;
   line-height: 1.6;
+  animation: messageIn 0.3s ease;
+}
+
+@keyframes messageIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .chat-message.user {
@@ -564,6 +664,7 @@ p {
 .chat-input-group .btn {
   align-self: flex-end;
   margin: 0;
+  padding: 12px 20px;
 }
 
 /* ========== 响应式设计 ========== */
@@ -587,6 +688,10 @@ p {
 
   .center {
     min-height: 70vh;
+  }
+
+  h1 {
+    font-size: 24px;
   }
 
   h2 {
