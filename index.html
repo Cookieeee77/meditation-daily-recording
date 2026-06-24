@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
+  <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#5bb1a8">
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+  }
+</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>冥想每日记录 - 21天冥想之旅</title>
