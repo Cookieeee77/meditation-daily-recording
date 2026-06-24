@@ -6,179 +6,71 @@
   <title>冥想心情打卡</title>
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#5bb1a8">
-  <style>
-    body { 
-      font-family: '微软雅黑', sans-serif; 
-      background: #bde0fe; 
-      margin: 0;
-      padding: 0;
-    }
-    .center { 
-      min-height: 90vh; 
-      display: flex; 
-      flex-direction: column; 
-      align-items: center; 
-      justify-content: center;
-    }
-    .card { 
-      background: #fff; 
-      border-radius: 16px; 
-      box-shadow: 0 4px 18px #acdedd33; 
-      padding: 32px 24px 25px 24px;
-      max-width: 420px;
-      width: 90vw;
-    }
-    h2 { margin-bottom: 16px; color: #2b5c77; }
-    select, textarea { 
-      padding: 8px 12px; 
-      border-radius: 8px; 
-      border: 1px solid #b1ccc5; 
-      font-size: 1em;
-      background: #eefaea; 
-      outline: none;
-      margin-top: 8px;
-      width: 100%;
-      box-sizing: border-box;
-    }
-    textarea { 
-      min-height: 70px; 
-      resize: vertical;
-      margin-top: 12px;
-    }
-    .btn {
-      padding: 12px 35px; 
-      border-radius: 30px; 
-      border: none; 
-      background: #5bb1a8;
-      color: #fff;
-      font-size: 1.09em;
-      cursor: pointer;
-      margin-top: 14px;
-      transition: background 0.2s;
-    }
-    .btn:hover { 
-      background: #3d9a8f; 
-    }
-    .hide { 
-      display: none; 
-    }
-    .guide { 
-      margin: 16px 0 0 0; 
-      color: #2b5c77;
-      line-height: 1.6;
-    }
-    .error { 
-      color: #ba1f2f;
-      margin-top: 8px;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <!-- 欢迎页 -->
-  <div class="center" id="welcome">
-    <div class="card">
-      <h2>🌳 欢迎进入冥想小屋</h2>
-      <p>沉浸在自然与平静中，调适你的每一天。</p>
-      <button class="btn" onclick="goToJournal()">开始打卡</button>
-    </div>
-  </div>
+  <header class="header">
+    <h1 class="app-title">🌳 冥想小屋</h1>
+    <p class="app-sub">沉浸在自然与平静中，调适你的每一天。</p>
+  </header>
 
-  <!-- 日志记录页 -->
-  <div class="center hide" id="journal">
-    <div class="card">
-      <h2>📝 记录今日心情</h2>
-      <div>请选择今日心情</div>
-      <select id="mood">
-        <option value="calm">🌞 平静</option>
-        <option value="happy">🌈 开心</option>
-        <option value="sad">🌧️ 忧郁</option>
-        <option value="anxious">🌊 焦虑</option>
-        <option value="unconfident">🌪️ 怀疑自我</option>
-      </select>
-      <textarea id="entry" placeholder="在这里写下你的心情/冥想想法……"></textarea>
-      <button class="btn" onclick="submitEntry()">获取冥想引导</button>
-      <div class="error" id="errorMsg"></div>
-    </div>
-  </div>
+  <main>
+    <!-- 欢迎页 -->
+    <section class="center" id="welcome">
+      <div class="card">
+        <h2>欢迎进入冥想小屋</h2>
+        <p>沉浸在自然与平静中，调适你的每一天。</p>
+        <button class="btn" id="startBtn" type="button">开始打卡</button>
+      </div>
+    </section>
 
-  <!-- 冥想引导页 -->
-  <div class="center hide" id="guide">
-    <div class="card">
-      <div id="guideTitle"></div>
-      <div class="guide" id="guideContent"></div>
-      <button class="btn" onclick="backToJournal()">再记录一次</button>
-    </div>
-  </div>
+    <!-- 日志记录页 -->
+    <section class="center hide" id="journal" aria-hidden="true">
+      <div class="card">
+        <div id="character-container" style="position:relative; min-height:84px;"></div>
 
-  <script>
-    // 页面切换函数
-    function goToJournal() {
-      document.getElementById('welcome').classList.add('hide');
-      document.getElementById('journal').classList.remove('hide');
-    }
+        <h2>📝 记录今日心情</h2>
 
-    function backToJournal() {
-      document.getElementById('guide').classList.add('hide');
-      document.getElementById('journal').classList.remove('hide');
-      document.getElementById('entry').value = '';
-      document.getElementById('errorMsg').textContent = '';
-    }
+        <form id="entryForm" onsubmit="return false;">
+          <label for="mood" class="label">请选择今日心情</label>
+          <select id="mood" name="mood" aria-label="今日心情">
+            <option value="calm">🌞 平静</option>
+            <option value="happy">🌈 开心</option>
+            <option value="sad">🌧️ 忧郁</option>
+            <option value="anxious">🌊 焦虑</option>
+            <option value="unconfident">🌪️ 怀疑自我</option>
+          </select>
 
-    // 提交日志
-    function submitEntry() {
-      let mood = document.getElementById('mood').value;
-      let text = document.getElementById('entry').value.trim();
-      
-      if (!text) {
-        document.getElementById('errorMsg').textContent = '请先写点内容😊';
-        return;
-      }
+          <label for="entry" class="sr-only">今日记录</label>
+          <textarea id="entry" name="entry" placeholder="在这里写下你的心情/冥想想法……" aria-required="true"></textarea>
 
-      // 显示引导页
-      showGuide(mood);
-    }
+          <div class="row" style="align-items:center;">
+            <button class="btn" id="submitBtn" type="button">获取冥想引导</button>
+            <div class="error" id="errorMsg" role="alert" aria-live="polite"></div>
+          </div>
+        </form>
+      </div>
+    </section>
 
-    // 冥想引导内容
-    const guides = {
-      calm: {
-        title: '🌞 适合你：呼吸静观冥想',
-        content: '继续觉察呼吸与身体，让平静成为你的力量。找一个舒适的姿势，闭上眼睛，专注于每一次呼吸。吸气时默数四拍，呼气时也默数四拍。感受身体的放松，享受这一刻的宁静。'
-      },
-      happy: {
-        title: '🌈 适合你：感恩冥想',
-        content: '记得心中的快乐源泉，给自己一个拥抱，感恩世界和自己。想想今天让你开心的事情，可能是一句话、一个笑容、或者一个小幸运。默念："感恩这一切美好"，让快乐在心中流淌。'
-      },
-      sad: {
-        title: '🌧️ 适合你：情绪陪伴冥想',
-        content: '允许情绪出现，请深呼吸，念一句"我被理解，也逐渐变好"。悲伤是正常的情绪，不必压抑它。找个舒适的地方坐下，让眼泪流出来也没关系。慢慢呼吸，告诉自己：这也会过去。'
-      },
-      anxious: {
-        title: '🌊 适合你：波浪冥想',
-        content: '专注吸气吐气，试着想象海浪声，让思绪慢慢安静。焦虑时，身体会紧张。尝试从脚趾开始，逐步放松全身肌肉。想象自己被温暖的海浪轻轻托住，随波逐流，一切都会好起来。'
-      },
-      unconfident: {
-        title: '🌪️ 适合你：自我激励冥想',
-        content: '你很棒，允许偶尔怀疑，相信自己终会成长！每个人都有迷茫和怀疑的时候。看看你已经走过的路，克服过的困难，你比想象中坚强得多。默念："我值得被爱，我会越来越好"。'
-      }
-    };
+    <!-- 冥想引导页 -->
+    <section class="center hide" id="guide" aria-hidden="true">
+      <div class="card">
+        <div id="guideTitle" aria-live="polite"></div>
+        <div class="guide" id="guideContent" aria-live="polite"></div>
+        <div style="margin-top:16px;">
+          <button class="btn" id="againBtn" type="button">再记录一次</button>
+        </div>
+      </div>
+    </section>
+  </main>
 
-    function showGuide(moodType) {
-      let guide = guides[moodType];
-      document.getElementById('guideTitle').innerHTML = '<h3>' + guide.title + '</h3>';
-      document.getElementById('guideContent').textContent = guide.content;
-      
-      document.getElementById('journal').classList.add('hide');
-      document.getElementById('guide').classList.remove('hide');
-    }
+  <footer class="footer">
+    <small>© 你的冥想小屋</small>
+  </footer>
 
-    // PWA Service Worker 注册
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js').catch(err => {
-        console.log('Service Worker 注册失败:', err);
-      });
-    }
-  </script>
-
+  <!-- 脚本：先角色，再主逻辑 -->
+  <script src="character.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>

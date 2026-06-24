@@ -10,11 +10,11 @@ class Character {
   // 改变角色表情
   setMood(mood) {
     this.mood = mood;
-    const character = this.container.querySelector('.character-otter, .character-capybara');
-    
+    const character = this.container && this.container.querySelector('.character-otter, .character-capybara');
+
     if (character) {
       character.classList.remove('happy', 'sad');
-      
+
       if (mood === 'happy' || mood === 'calm') {
         character.classList.add('happy');
       } else if (mood === 'sad' || mood === 'anxious') {
@@ -41,16 +41,18 @@ class Character {
   // 角色说话
   speak(message) {
     // 创建对话气泡
-    let bubble = document.querySelector('.character-bubble');
+    if (!this.container) return;
+
+    let bubble = this.container.querySelector('.character-bubble');
     if (!bubble) {
       bubble = document.createElement('div');
       bubble.className = 'character-bubble';
       this.container.appendChild(bubble);
     }
-    
+
     bubble.textContent = message;
     bubble.style.display = 'block';
-    
+
     // 3秒后隐藏
     setTimeout(() => {
       bubble.style.display = 'none';
@@ -59,7 +61,7 @@ class Character {
 
   // 角色跳舞（完成打卡时）
   dance() {
-    const character = this.container.querySelector('.character-otter, .character-capybara');
+    const character = this.container && this.container.querySelector('.character-otter, .character-capybara');
     if (character) {
       character.style.animation = 'dance 0.6s ease-in-out';
       setTimeout(() => {
@@ -78,10 +80,13 @@ class Character {
 // 创建全局角色实例
 let character;
 
-// 初始化角色
+// 初始化角色（防止重复初始化）
 function initCharacter(type = 'otter') {
+  if (window.__character_initialized) return;
+  window.__character_initialized = true;
+
   character = new Character(type);
-  
+
   // 添加对话气泡样式
   if (!document.querySelector('style[data-character]')) {
     const style = document.createElement('style');
@@ -152,7 +157,4 @@ function characterCelebrate() {
   }
 }
 
-// 页面加载时初始化角色
-document.addEventListener('DOMContentLoaded', () => {
-  initCharacter('otter'); // 默认使用水獭，可改为 'capybara'
-});
+// 注意：不再自动在 DOMContentLoaded 初始化角色，由 main.js 负责调用 initCharacter()
